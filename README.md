@@ -185,7 +185,6 @@
             FROM 테이블명
             (WHERE 조건...)
             ORDER BY 열 나열 ASC|DESC
-
         ```
  
 ## 2일차
@@ -285,15 +284,186 @@
 
 ### SELECT 실습
 
+- DB 기본타입 - 문자열, 숫자, 날짜시간 
+
+
 #### 서브쿼리 계속
+
+- 서브쿼리 종류 - [쿼리](./day03/1.SUBQUERY.sql)
+    - WHERE절 서브쿼리 
+    - FROM절 서브쿼리
+    - SELECT절 서브쿼리
 
 #### 집합연산
 
+- 두 테이블 합치기 - [쿼리](./day03/2.UNION.sql)
+    - UNION - 중복제거 합집합
+    - UNION ALL - 중복표시 합집합
+
+#### GROUP BY 추가 기능
+
+- GROUP BY 컬럼 WITH ROLLUP - 전체 합산 추출 [쿼리](./day03/3.ROLLUP.sql)
+    - ROLLUP을 안쓰면 쿼리가 아주 길어짐
+
 ### DML 기타
+
+- DML 중에서 직접적인 트랜잭션 영향을 받지 않는 것은 SELECT 뿐
 
 #### INSERT
 
+- [쿼리](./day03/4.DML기타.sql)
+- 테이블에 데이터를 삽입하는 쿼리
+- 트랜잭션의 영향을 받음
+
+    ```sql
+    INSERT INTO 테이블명 (컬럼1, ... 컬럼n)
+    VALUES (컬럼1값, ..., 컬럼n값);
+    ```
+
+- UPDATE나 DELETE와 달리 큰 문제가 발생하지 않음
+- 잘못 입력되면 지우면 됨
+
 #### UPDATE
+
+- 테이블에 존재하는 데이터를 수정하는 쿼리
+- 트랜잭션의 영향을 받음
+- 수정은 매우 신중
+
+    ```sql
+    UPDATE 테이블명
+       SET 변경컬럼1 = 변경값1
+         , 변경컬럼2 = 변경값2
+         , ...
+         , 변경컬럼n = 변경값n
+     WHERE 구분컬럼 = 구분값;
+    ```
 
 #### DELETE
 
+- 테이블에 존재하는 데이터를 삭제하는 쿼리
+- 트랜잭션의 영향을 받음
+- 삭제는 매우 신중
+
+    ```sql
+    DELETE FROM 테이블명
+     WHERE 구분컬럼 = 구분값;
+    ```
+
+#### 트랙잭션 처리
+
+- UPDATE, DELETE, (INSERT포함) 처리오류가 발생하면 복구할 수 있는 기능 존재
+- 8장에서 다룰 예정
+
+### DDL
+
+- 객체 생성하고 수정, 삭제하는 기능을 하는 SQL 언어
+
+#### MySQL 데이터타입
+- `BOOL` - true/false
+- TINYINT, SMALLINT - 1byte(255개), 2byte
+    - `TINYINT(1)` - 1/0
+- `INT` - 4byte(가장기본)
+- `BIGINT` - 8byte
+- FLOAT - 4byte 소수점
+- DOUBLE - 8byte, 예전에 많이 사용
+- `DECIMAL(m, n)` - m 전체 65자리수, n 소수점 최대 30 자리수
+    - 정수가 35자리, 소수점 30자리인 아주 큰 수
+    - 현재 가장 많이 사용되는 숫자타입
+- DATE - 날짜만 2026-03-17
+- `DATETIME` - 날짜와 시간 모두 2026-03-17 16:28:56.092
+- CHAR(n) - 고정길이 문자열 n만큼 길이 지정
+    - CHAR(10)에 'Hello'입력하면 'Hello     ' 로 저장
+    - 나머지 5자리 스페이스로 채움
+    - 주민번호, 공통코드처럼 정확한 길이 입력 필요할때
+- VARCHAR(n) - 가변길이 문자열 n만큼 길이 지정
+    - VARCHAR(10)은 'Hello' 로 저장. 나머지 5자리는 없앰
+    - 길이를 넘어서는 문자열을 입력되지 않음(잘림)
+    - char, varchar는 길이를 여유있게 설정
+- `TEXT`, LONGTEXT - 아주 긴 문자열, 2 ~ 4GB
+- `BLOB` - 바이너리로 저장되는 큰 데이터, 2 ~ 4GB
+
+#### CREATE
+
+- DB객체를 생성하는 쿼리 - [쿼리](./day03/5.DDL.sql)
+- 데이터베이스, 테이블, 뷰, 인덱스 등 주요 객체를 생성가능
+
+    ```sql
+    -- 테이블 생성
+    CREATE TABLE 테이블명 (
+        컬럼1이름 데이터타입 제약조건,
+        컬럼2이름 데이터타입 제약조건,
+        ...
+        컬럼n이름 데이터타입 제약조건,
+        [각 제약조건 독립적으로 작성]
+    );
+    -- 데이터베이스 생성
+    CREATE DATEBASE 데이터베이스명;
+    -- 사용자 생성
+    CREATE USER 사용자명 IDENTIFIED BY 비번;
+    -- ...
+    ```
+
+## 4일차
+
+### MySQL 샘플DB
+
+- 샘플DB
+    - https://github.com/datacharmer/test_db 
+    - https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
+    - https://dev.mysql.com/doc/index-other.html?ref=dbwriter.io
+
+- Sakila-db - MySQL 버전 충돌로 현재 사용불가
+
+### DML 추가
+- INSERT INTO 대량 삽입 - MySQL 방법
+    ```sql
+    INSERT INTO 테이블명 VALUES(컬럼1값,컬럼2값,...컬럼n값),
+    (컬럼1값,컬럼2값,...컬럼n값),
+    (컬럼1값,컬럼2값,...컬럼n값),
+    ...
+    (컬럼1값,컬럼2값,...컬럼n값);
+    ```
+
+### DDL 계속
+
+### 제약조건
+- 데이터베이스에 정확한 데이터가 들어갈 수 있도록, 테이블 각 칼럼별 입력가능한 데이터를 지정하는 것
+- 무결성을 벗어나는 데이터는 못들어가도록 제약주는 것
+- 종류 : `기본키(Primary Key)`,단일(Unique),널허용여부(NULL),체크(Check),기본값(Default),`외래기(Foreign Key)`
+
+### CREATE 계속
+
+- CREATE 구문
+    - PRIMARY KEY(컬림, 또는 여러개)
+    - FOREIGN key(custid) REFERENCES NewCustomer(custid) ON DELETE CASCADE
+        - references : 참조하는 부모테이블과 pk컬럼
+        - on delete cascade : 무결성 유지를 위해서 부모테이블의 해당 PK데이터를 삭제하면 자식테이블 관련 FK데이터도 삭제하는 옵션
+        - on delete set null : 부모테이블의 PK값이 삭제되면, 자식테이블의 FK값은 null로 처리하는 옵션 
+        - on update cascade | set null : 수정할 때도 같은 처리 가능. 수정도 가능하지만 PK 수정이 거의 없기 때문에 많이 사용되지 않음
+    - `AUTO_INCREMENT` : 테이블에 데이터 삽입할 때 숫자타입 PK의 값을 자동 증가시켜서 만들어주는 기능
+        - PK 칼럼은 INSERT 문에서 생략
+#### ALTER
+
+- ALTER
+    - 객체 수정, 테이블 외에서는 많이 사용 안함
+
+    ```sql
+    ALTER TABLE 테이블명
+        [ADD 속성명 데이터타입]
+        [DROP COLUMN 속성명]
+        [MODIFY 속성명 데이터타입]
+        [MODIFY 속성명 NULL|NOT NULL]
+        [ADD PRIMARY KEY 컬럼명]
+        [ADD|DROP 제약조건명]
+    ```
+
+#### DROP
+- DROP
+    - 객체 삭제
+    - 테이블에서는 관계를 맺고 있는 자식테이블 먼저 삭제 후 부모테이블 삭제 가능
+
+    ```sql
+    DROP 객체 객체명
+    ```
+### 내장함수
+- C,C++ 내장함수와 동일
