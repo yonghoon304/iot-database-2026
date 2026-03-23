@@ -116,7 +116,7 @@
     ![alt text](image-6.png)
     ![alt text](image-7.png)
 
-6. DBeaver 개발툴 설치
+6. DBeaver community Edition 개발툴 설치
     - https://dbeaver.io/ 다운로드 > x86.exe
     - 일반적인 프로그램 설치와 동일
     - 대문자 자동변경
@@ -158,10 +158,10 @@
     - 데이터베이스에서 데이터를 조작하고, 테이블과 같은 객체를 컨트롤하는 등의 작업을 수행하는 프로그래밍 언어
 
 - SQL 종류
-    - DML(Data Manipulation Language) - 데이터 조작 언어, SELECT,INSERT,UPDATE,DELETE와 같은 데이터를 조작하는 언어
-    - DDL(Data Definition Language) - 데이터 정의어, CREATE,ALTER,RENAME,DROP 같은 객체(데이터베이스,테이블,사용자,뷰,인덱스..)를 처리하는 언어.
-    - DCL(Data Control Language) - 데이터 제어어, GRANT,REVOKE 와 같이 사용자에게 권한주고 해제하는 기능을 처리하는 언어
-    - TCL(Transaction Control Language) - 트랜잭션 제어어, BEGIN TRAN,COMMIT,ROLLBACK 같은 트랜잭션 처리로 동시성 제어를 위한 언어
+    - DML(Data Manipulation Language) - 데이터 조작 언어, `SELECT`,`INSERT`,`UPDATE`,`DELETE와` 같은 데이터를 조작하는 언어
+    - DDL(Data Definition Language) - 데이터 정의어, `CREATE`,`ALTER`,RENAME,`DROP` 같은 객체(데이터베이스,테이블,사용자,뷰,인덱스..)를 처리하는 언어.
+    - DCL(Data Control Language) - 데이터 제어어, `GRANT`,`REVOKE` 와 같이 사용자에게 권한주고 해제하는 기능을 처리하는 언어
+    - TCL(Transaction Control Language) - 트랜잭션 제어어,` START TRAN`,`COMMIT`,`ROLLBACK` 같은 트랜잭션 처리로 동시성 제어를 위한 언어
 
 ### SELECT 실습
     - 기본문법
@@ -175,16 +175,16 @@
              FROM 테이블명;
 
         # 조건 필터링(필요한 행,레코드)만 조회할 때
-        SELECT *|열 이름 나열
+        SELECT *|col 이름 나열
             FROM 테이블명
             WHERE 조건...
         
         # 정렬
         # ASC 기본,생략가능
-        SELECT *|열 이름 나열
+        SELECT *|col 이름 나열
             FROM 테이블명
             (WHERE 조건...)
-            ORDER BY 열 나열 ASC|DESC
+            ORDER BY col 나열 ASC|DESC
         ```
  
 ## 2일차
@@ -197,7 +197,7 @@
 - 가상머신보다 빠름 - VMWare,VirtualBox와 같은 가상OS 플랫폼보다 실행속도가 빠름. 가상OS에서 필요없는 기능 제거,용량 축소
 
 ### AI시대 PostgreSQL 학습
-- DB시장에서 Oralce,MySQL,SQLserver 다음 PostgreSQL이 4위
+- DB시장에서 Oralce,MySQL,SQLserver 다음 `PostgreSQL`이 4위
 - AI시대에 더 비중이 오름
 - 나중에 학습할 것
 
@@ -232,7 +232,7 @@
     - 패턴 - LIKE(문자열만),&,_
         - bookname LIKE '축구%' -- 축구로 시작하는 책제목 모두
 
-    - NULL - 데이터가 없는 것, 입력되지 않은 것, =로 비교하지 않음
+    - `NULL` - 데이터가 없는 것, 입력되지 않은 것, =로 비교하지 않음
         - price IS NULL, IS NOT NULL
 
     - 복합 - AND , OR , NOT
@@ -699,7 +699,7 @@ ROLLBACK; # 실패했으면 원상복구
     ```
 
 #### MySQL 백업 복구
-- dump, resore
+- dump, restore
     - .*sql파일로 내보내기 [쿼리](./day06/dump-madangdb-202603201614.sql)
     - ![alt text](image-20.png)
 
@@ -738,34 +738,107 @@ ROLLBACK; # 실패했으면 원상복구
     - Type, FUNCTION 선택
     ![alt text](image-21.png)
     - 작성 후 Save클릭(Execute)
+
+## 7일차
+
+### MySQL programing
+
 #### 저장 프로시저
-- 저장 프로시저
-    - 함수와 달리 리턴값이 없음, 단 OUT 파라미터로 결과를 돌려받을 순 있음
+- 저장 프로시저 [쿼리1](./day7/1.PROCEDURE_원본.sql),[쿼리2](./day7/1.PROCEDURE_실행.sql)
+    - 함수와 달리 리턴값이 없음, 단 OUT 파라미터로 결과를 돌려받을 순 있음(return과 유사)
     - 일반 쿼리문에 포함불가
     - 단독 실행 또는 배치(스케줄에 따라) 실행
-    - 사용자 없는 새벽에 대량처리 수행할 때
+    - 사용자 없는 새벽에 `대량처리` 수행할 때
 - 생성
     - DBeaver 해당 DB Procedure 폴더에서 마우스 오른쪽 버튼 > Create New Procedure
     - Name, 필요한 프로시저명 입력
     - Type, PROCEDURE 선택
     - 작성 후 Save 클릭(Execute)
+
 #### 커서 
-- Curosr
+- Curosr - 저장 프로시저 쿼리 참조
     - 마우스 커서와 동일하게 테이블의 한 위치를 가리키는 객체
     - 테이블의 데이터를 한 행씩 처리하기위해서 사용
     - CURSOR, OPEN, FETCH, CLOSE
     - 일반 프로그래밍 언어와 연동시 사용
+
 #### 트리거
-- Trigger 
+- Trigger [쿼리1](./day7/2.TRIGGER_원형.sql),[쿼리2](./day7/2.TRIGGER.sql)
     - 방아쇠를 뜻함. 하나의 테이블에서 INSERT, UPDATE, DELETE 문이 실행되면 다른 테이블이나 다른 처리가 자동으로 실행되는 저장 프로그램 중 하나
     - Before Trigger보다 After Trigger가 많이 사용
     - 시스템 로그 기능에 많이 사용됨
     ![alt text](image-22.png)
-### C/C++ MySQL연동
-
-#### MySQL Connect C/C++ 라이브러리
 
 ### 데이터베이스 모델링
 
-#### ERD 작성
-- 정규화, 반정규화, 개념/논리/물리 다이어그램
+#### 모델링
+ - 개요
+    - 현실세계에 존재하는 시스템을 컴퓨터 시스템으로 변환하기 위한 디자인
+    - 현실세계의 데이터를 DB상에 입력해서 프로그램에서 사용할 수 있도록 설계
+    - 현실세계 데이터와 DB상 데이터가 일치
+    - ex) 오프라인 매장 -> 온라인 매장, 시립 도서관 -> 온라인 시립 도서관, 백화점 -> 모바일 백화점
+
+- 데이터베이스 생성주기
+    - `요구사항 수집 및 분석` > `설계` > `구현` > 운영 > 감시 및 개선
+
+- SW 생명주기
+    - DB 생명주기 설계와 구현이 SW생명주기 설계에 속함
+    - `요구사항 수집 및 분석` > `설계` > 구현 > 테스트 > 배포 > 유지보수/관리 
+
+- DB 설계의 순서
+    1. 개념 모델링 : 요구사항에 따른 개념적인 모델링으로,추상적인 도형으로 관계 구성
+        - 각 테이블이 될 엔티티 추출
+        - 테이블의 컬럼이 될 속성 추출
+        - 속성 구분자가 될 키 추출
+    2. 논리 모델링 : 개념 모델링 바탕으로 속성,키,관계 명확히 정의
+        - 개념 모델링에서 나오지 않았던 상세 속성들 추출,PK,FK
+        - 데이터 중복을 최소화하는 `정규화` 수행
+        - 관계형 데이터모델 테이블화,구체화
+    3. 물리 모델링 
+        - 실제 DB 종류(Oracle,`MySQL`,SQL Server)를 고려해서 설계
+        - 테이블,컬럼,인덱스,제약조건,뷰 등 객체 및 PK,FK,NULL 등 계약조건  생성
+        - 성능을 위해 정규화된 내용을 다시 `반정규화` 진행
+        - 최종 스키마 완성
+        - 실제 데이터베이스화(내보내기 기능)
+
+## 8일차
+
+### 데이터베이스 모델링
+
+#### ERD
+- Entity Relationship Diagram
+
+### C/C++ MySQL연동
+
+- 개발방법
+    - MySQL 8.0 이상
+    - MySQL Connector/C++ 라이브러리 설치
+    - Visual Studio 프로젝트 생성
+    - C++ 코드 작성
+
+#### MySQL Connector C/C++ 라이브러리
+- https://dev.mysql.com/downloads/connector/cpp/ MSI 다운로드
+    - C:\Program Files\MySQL\MySQL Connector C++ 9.6\ 에 설치됨
+- 시스템속성
+    - 시스템 환경 변수 편집
+    - 고급 > 환경 변수 > path에 MySQL 관련 dll이 위치하는 경로 추가
+    - VS나 콘솔 재시작
+    - ![alt text](image-25.png)
+#### Visual Studio 프로젝트 속성
+- 프로젝트 속성
+    - C/C++ > 일반 > 추가 포함 디렉토리
+        - C:\Program Files\MySQL\MySQL Connector C++ 9.6\include 추가
+    - 링커 > 일반 > 추가 라이브러리 디렉토리
+        - C:\Program Files\MySQL\MySQL Connector C++ 9.6\lib64\vs14
+        - 부모 또는 프로젝트 기본값에서 상속 체크
+    - 링커 > 입력 > 추가 종속성
+        - mysqlcppconn.lib
+
+#### 텔넷 클라이언트 설정
+- 시작 > appwiz.cpl 실행
+    - windows 기능 켜기/끄기 실행
+    - Telnet Client 체크 활성화
+    - powershell이나 콘솔
+    ![alt text](image-23.png)
+
+    ![alt text](image-24.png)
