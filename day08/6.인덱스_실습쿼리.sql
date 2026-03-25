@@ -49,4 +49,8 @@ CREATE INDEX idx_orders_order_date ON orders_big(order_date desc);
     -> Filter: (orders_big.order_date between '2024-01-01' and '2025-12-31')  (cost=53.5 rows=25.5) (actual time=0.04..0.177 rows=51 loops=1)
     -> Index lookup on orders_big using idx_orders_customer_id (customer_id=23456)  (cost=53.5 rows=51) (actual time=0.0374..0.165 rows=51 loops=1)
 */
+# 두 인덱스 제거
 
+CREATE INDEX idx_orders_customer_id_and_order_date ON orders_big(customer_id,order_date);
+
+CREATE INDEX idx_orders_city_and_amount ON orders_big(city,amount);
