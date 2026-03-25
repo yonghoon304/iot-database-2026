@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MySQLCrudTest.vcxproj" Id="cc95d06b-297b-4c91-8516-ef872fac64eb" />
+</Solution>
